@@ -1,0 +1,15 @@
+streamlit
+pandas
+seaborn
+matplotlib
+ydata-profiling
+streamlit-pandas-profiling
+scikit-learn
+time
+base64
+numpy
+datetime
+pickle
+pyyaml
+tensorflow
+plotly
