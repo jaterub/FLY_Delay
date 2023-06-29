@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 import pickle
@@ -32,43 +32,44 @@ y = df_processed['DELAYED'].copy()
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42)
 
-# Create pipeline with scaler and logistic regression model
+# Definir el pipeline
 pipeline = Pipeline([
-    ('scaler', StandardScaler()),
-    ('lr', LogisticRegression(max_iter=1000))
+    ('scaler', StandardScaler()),  # Escalador
+    ('rf', RandomForestClassifier())  # Clasificador Random Forest
 ])
 
-# Define hyperparameters to search over
+# Definir los hiperparámetros a ajustar
 parameters = {
-    'lr__C': [0.1, 1, 0.01],
-    'lr__penalty': ['l2']
+    'rf__n_estimators': [60, 70, 90],
+    'rf__max_depth': [3],
+    'rf__criterion:': ['gini', 'log_loss']
 }
 
-# Perform grid search with cross-validation to find best hyperparameters
+# Realizar la búsqueda de hiperparámetros utilizando validación cruzada
 grid_search = GridSearchCV(pipeline, parameters, cv=5,
-                           scoring='recall', verbose=2)
+                           scoring='accuracy', verbose=3)
 grid_search.fit(X_train, y_train)
 
-# Get best model from grid search
+# Obtener el mejor modelo
 best_model = grid_search.best_estimator_
 
-print('Metricas Logistic Regression')
+print('Metricas Random Forest')
 
-# Make predictions with best model on test data
+# Predecir con el mejor modelo en los datos de prueba
 y_pred = best_model.predict(X_test)
 
-# Calculate evaluation metrics
 accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy: {:.2f}%".format(accuracy * 100))
+
 precision = precision_score(y_test, y_pred)
+print("Precisión: {:.2f}%".format(precision * 100))
+
 recall = recall_score(y_test, y_pred)
+print("Recall: {:.2f}%".format(recall * 100))
+
 f1 = f1_score(y_test, y_pred)
+print("F1-score: {:.2f}%".format(f1 * 100))
 confusion = confusion_matrix(y_test, y_pred)
-
-print("accuracy: {:.2f}%".format(accuracy * 100))
-print("precision: {:.2f}%".format(precision * 100))
-print("recall: {:.2f}%".format(recall * 100))
-print("F1 score: {:.2f}%".format(f1 * 100))
-
 print("Matriz de confusión:")
 print(confusion)
 
