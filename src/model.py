@@ -42,7 +42,7 @@ pipeline = Pipeline([
 parameters = {
     'rf__n_estimators': [60, 70, 90],
     'rf__max_depth': [3],
-    'rf__criterion:': ['gini', 'log_loss']
+    'rf__criterion': ['gini', 'log_loss']
 }
 
 # Realizar la búsqueda de hiperparámetros utilizando validación cruzada
