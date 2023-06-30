@@ -14,7 +14,7 @@ import base64
 import plotly.express as px
 
 
-@st.cache
+@st.cache_data
 def load_data(file):
     return pd.read_csv(file)
 
@@ -93,11 +93,14 @@ def main():
 
         chosen_target = st.selectbox(
             'Choose the Target Column', st.session_state.df.columns)
+        features_to_drop = st.multiselect(
+            'Choose Features to Drop', st.session_state.df.columns)
         model_choice = st.multiselect('Choose Models', [
-                                      'Logistic Regression', 'Naive Bayes', 'Random Forest', 'Gradient Boosting'])
+            'Logistic Regression', 'Naive Bayes', 'Random Forest', 'Gradient Boosting'])
 
         if st.button('Run Modeling'):
-            X = st.session_state.df.drop(columns=[chosen_target])
+            X = st.session_state.df.drop(
+                columns=[chosen_target] + features_to_drop)
             y = st.session_state.df[chosen_target]
 
             X_train, X_test, y_train, y_test = train_test_split(
