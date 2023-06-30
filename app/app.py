@@ -9,6 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import recall_score, classification_report
+from sklearn.svm import SVC
 import time
 import base64
 import plotly.express as px
