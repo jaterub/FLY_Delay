@@ -159,10 +159,18 @@ def main():
             st.warning("Please upload a dataset first.")
             return
 
+        features = st.multiselect(
+            "Selecciona varias features y haz gropuby ", vis_df.columns)
+        if len(features) > 1:
+            fig = px.scatter_matrix(vis_df, dimensions=features)
+            st.plotly_chart(fig)
+        else:
+            st.warning("Por favor, selecciona al menos dos características.")
+
         x_axis = st.selectbox("Choose x-axis column", vis_df.columns)
         y_axis = st.selectbox("Choose y-axis column", vis_df.columns)
         chart_type = st.selectbox("Select chart type", [
-                                  "Scatter plot", "Bar plot", "Pie plot"])
+            "Scatter plot", "Bar plot", "Pie plot"])
         if chart_type == "Scatter plot":
             fig = px.scatter(vis_df, x=x_axis, y=y_axis)
             st.plotly_chart(fig)
