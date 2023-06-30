@@ -96,7 +96,7 @@ def main():
         features_to_drop = st.multiselect(
             'Choose Features to Drop', st.session_state.df.columns)
         model_choice = st.multiselect('Choose Models', [
-            'Logistic Regression', 'Naive Bayes', 'Random Forest', 'Gradient Boosting'])
+            'Logistic Regression', 'Naive Bayes', 'SVC', 'Random Forest', 'Gradient Boosting'])
 
         if st.button('Run Modeling'):
             X = st.session_state.df.drop(
@@ -116,6 +116,9 @@ def main():
             if 'Gradient Boosting' in model_choice:
                 models.append(('Gradient Boosting', GradientBoostingClassifier(
                     max_depth=6, min_samples_split=5, n_estimators=120)))
+            if 'SVC' in model_choice:
+                models.append(
+                    ('SVC', SVC(C=1, kernel='linear', random_state=42)))
 
             for name, model in models:
                 model.fit(X_train, y_train)
