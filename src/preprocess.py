@@ -57,5 +57,7 @@ def guardar_en_csv(df, ruta_destino):
     print(f"DataFrame guardado en {ruta_destino}")
 
 
+reduced_df = df.sample(frac=0.25)
+
 # Guardar dataframe procesado en archivo csv
 guardar_en_csv(df, '../data/processed/processed.csv')
