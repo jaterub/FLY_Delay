@@ -1,4 +1,28 @@
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import pickle
+
+
+test_df = pd.read_csv('../data/test/test_df.csv')
+
+
+X_test = test_df.drop(['DELAYED', 'ARRIVAL_DELAY', 'DEPARTURE_TIME'], axis=1)
+y_test = test_df['DELAYED']
+# Importacionnes
+
+# Cargar el modelo entrenado desde un archivo pickle svc1_model
+with open('../models/svc1_model.pkl', 'rb') as archivo_entrada:
+    svc1_model = pickle.load(archivo_entrada)
+
+
+# Cargar el modelo entrenado desde un archivo pickle kmeans4_model
+with open('../models/kmeans4_model.pkl', 'rb') as archivo_entrada:
+    kmeans4_model = pickle.load(archivo_entrada)
+
+
+# Cargar el modelo entrenado desde un archivo pickle gb1_model
+with open('../models/gb1_model.pkl', 'rb') as archivo_entrada:
+    gb1_model = pickle.load(archivo_entrada)
+
 
 # Hacer predicciones en los datos de prueba con cada modelo
 y_pred_svc1_model = svc1_model.predict(X_test)
